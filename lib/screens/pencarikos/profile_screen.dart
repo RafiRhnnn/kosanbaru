@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kosautb/screens/login/login_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -13,7 +14,7 @@ class ProfileScreen extends StatelessWidget {
             margin: const EdgeInsets.only(top: 20),
             child: CircleAvatar(
               radius: 60,
-              backgroundImage: AssetImage('assets/iamges/profile.jpg'),
+              backgroundImage: AssetImage('assets/images/profile.jpg'),
             ),
           ),
 
@@ -64,7 +65,13 @@ class ProfileScreen extends StatelessWidget {
                   icon: Icons.logout,
                   title: 'Keluar',
                   onTap: () {
-                    // Tambahkan logika untuk logout
+                    // Logika untuk logout
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginScreen()),
+                      (route) => false, // Menghapus semua rute sebelumnya
+                    );
                   },
                 ),
               ],
