@@ -4,65 +4,67 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class PesanScreen extends StatefulWidget {
   final Map<String, dynamic> kosData;
 
-  const PesanScreen({super.key, required this.kosData});
+  const PesanScreen({
+    super.key,
+    required this.kosData,
+  });
 
   @override
   State<PesanScreen> createState() => _PesanScreenState();
 }
 
 class _PesanScreenState extends State<PesanScreen> {
-  final _formKey = GlobalKey<FormState>();
   final _namaPemesanController = TextEditingController();
-  final _tanggalSurveyController = TextEditingController();
   final _jumlahKamarController = TextEditingController();
-  final _emailPemesanController = TextEditingController();
+  final _tanggalSurveyController = TextEditingController();
+  final _emailController = TextEditingController();
 
-  Future<void> _konfirmasiPesanan() async {
-    if (_formKey.currentState!.validate()) {
-      final supabase = Supabase.instance.client;
+  Future<void> _pesanKosan() async {
+    final namaPemesan = _namaPemesanController.text;
+    final jumlahKamar = int.tryParse(_jumlahKamarController.text);
+    final tanggalSurvey = _tanggalSurveyController.text;
+    final email = _emailController.text;
 
-      try {
-        // Kirim data ke Supabase
-        final response = await supabase.from('pesanan_kos').insert({
-          'nama_pemesan': _namaPemesanController.text,
-          'tanggal_survey': _tanggalSurveyController.text,
-          'jumlah_kamar': int.tryParse(_jumlahKamarController.text) ?? 1,
-          'email_pemesan': _emailPemesanController.text,
-          'kos_id': widget.kosData['id'], // Asumsikan kos memiliki ID
-        });
+    if (namaPemesan.isEmpty ||
+        jumlahKamar == null ||
+        tanggalSurvey.isEmpty ||
+        email.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Harap isi semua field dengan benar!')),
+      );
+      return;
+    }
 
-        // Debug respons untuk melihat hasil
-        print('Response: $response');
+    try {
+      final response = await Supabase.instance.client.from('pesanan').insert({
+        'nama_pemesan': namaPemesan,
+        'jumlah_kamar': jumlahKamar,
+        'tanggal_survey': tanggalSurvey,
+        'email': email,
+        'nama_kos': widget.kosData['nama_kos'],
+        'alamat_kos': widget.kosData['alamat_kos'],
+      });
 
-        // Tangani kasus respons sukses
-        if (response != null && response is Map<String, dynamic>) {
-          if (response.containsKey('error') && response['error'] != null) {
-            // Jika ada error dalam response
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('Gagal memesan: ${response['error']['message']}'),
-              ),
-            );
-          } else {
-            // Jika berhasil tanpa error
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Pesanan berhasil dibuat!')),
-            );
-            Navigator.pop(context); // Kembali ke halaman sebelumnya
-          }
-        } else {
-          // Jika respons tidak valid atau tidak terduga
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content: Text('Terjadi kesalahan yang tidak terduga')),
-          );
-        }
-      } catch (e) {
-        // Menangani kesalahan lain
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Terjadi kesalahan: $e')),
-        );
+      // Periksa apakah response gagal
+      if (response != null &&
+          response is Map &&
+          response.containsKey('error')) {
+        throw Exception(response['error']['message']);
       }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Pesanan berhasil dibuat!')),
+      );
+
+      // Reset form
+      _namaPemesanController.clear();
+      _jumlahKamarController.clear();
+      _tanggalSurveyController.clear();
+      _emailController.clear();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal membuat pesanan: $e')),
+      );
     }
   }
 
@@ -82,83 +84,43 @@ class _PesanScreenState extends State<PesanScreen> {
                   style: const TextStyle(fontSize: 18)),
               Image.asset('assets/images/kosan.jpg'),
               const SizedBox(height: 8),
-              Text('Alamat: ${widget.kosData['alamat_kos'] ?? ''}'),
-              Text('Jumlah Kamar: ${widget.kosData['jumlah_kamar'] ?? ''}'),
-              Text(
-                  'Harga Sewa: Rp ${widget.kosData['harga_sewa'] ?? ''}/bulan'),
+              Text('Alamat: ${widget.kosData['alamat_kos']}'),
+              Text('Harga: Rp ${widget.kosData['harga_sewa']}/bulan'),
               Text('Jenis Kos: ${widget.kosData['jenis_kos'] ?? ''}'),
               Text('Fasilitas: ${widget.kosData['fasilitas'] ?? ''}'),
               Text('Email Pemilik: ${widget.kosData['email_pengguna'] ?? ''}'),
               const SizedBox(height: 16),
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: _namaPemesanController,
-                      decoration: const InputDecoration(
-                        labelText: 'Nama Pemesan',
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Nama pemesan wajib diisi';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    TextFormField(
-                      controller: _tanggalSurveyController,
-                      decoration: const InputDecoration(
-                        labelText: 'Tanggal Survey (YYYY-MM-DD)',
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Tanggal survey wajib diisi';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    TextFormField(
-                      controller: _jumlahKamarController,
-                      decoration: const InputDecoration(
-                        labelText: 'Jumlah Kamar',
-                        border: OutlineInputBorder(),
-                      ),
-                      keyboardType: TextInputType.number,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Jumlah kamar wajib diisi';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    TextFormField(
-                      controller: _emailPemesanController,
-                      decoration: const InputDecoration(
-                        labelText: 'Email Pemesan',
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Email pemesan wajib diisi';
-                        }
-                        if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                          return 'Email tidak valid';
-                        }
-                        return null;
-                      },
-                    ),
-                  ],
+              TextField(
+                controller: _namaPemesanController,
+                decoration: const InputDecoration(
+                  labelText: 'Nama Pemesan',
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: _jumlahKamarController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: 'Jumlah Kamar',
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: _tanggalSurveyController,
+                decoration: const InputDecoration(
+                  labelText: 'Tanggal Survey (YYYY-MM-DD)',
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: _emailController,
+                decoration: const InputDecoration(
+                  labelText: 'Email',
                 ),
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: _konfirmasiPesanan,
+                onPressed: _pesanKosan,
                 child: const Text('Konfirmasi Pesanan'),
               ),
             ],
@@ -166,14 +128,5 @@ class _PesanScreenState extends State<PesanScreen> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _namaPemesanController.dispose();
-    _tanggalSurveyController.dispose();
-    _jumlahKamarController.dispose();
-    _emailPemesanController.dispose();
-    super.dispose();
   }
 }
