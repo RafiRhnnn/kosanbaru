@@ -93,6 +93,18 @@ class _PesananScreenState extends State<PesananScreen> {
                   itemCount: _pesananList.length,
                   itemBuilder: (context, index) {
                     final pesanan = _pesananList[index];
+
+                    // Logika menghitung total harga
+                    final hargaSewa = pesanan['harga_sewa'] is int
+                        ? pesanan['harga_sewa']
+                        : int.tryParse(pesanan['harga_sewa'].toString()) ?? 0;
+
+                    final berapaBulan = pesanan['berapa_bulan'] is int
+                        ? pesanan['berapa_bulan']
+                        : int.tryParse(pesanan['berapa_bulan'].toString()) ?? 0;
+
+                    final totalHarga = hargaSewa * berapaBulan;
+
                     return Dismissible(
                       key: ValueKey(pesanan['id']),
                       direction: DismissDirection.endToStart,
@@ -131,6 +143,10 @@ class _PesananScreenState extends State<PesananScreen> {
                                     Text(
                                         'Tanggal Survey: ${pesanan['tanggal_survey']}'),
                                     Text('Email: ${pesanan['email']}'),
+                                    Text('Harga Sewa /Bulan: Rp $hargaSewa'),
+                                    Text(
+                                      'Total Harga Sewa : Rp $totalHarga',
+                                    ),
                                   ],
                                 ),
                               ),
