@@ -19,20 +19,18 @@ class _PesanScreenState extends State<PesanScreen> {
   final _namaPemesanController = TextEditingController();
   final _jumlahKamarController = TextEditingController();
   final _tanggalSurveyController = TextEditingController();
-  final _emailController = TextEditingController();
   final _berapaBulanController = TextEditingController();
 
   Future<void> _pesanKosan() async {
     final namaPemesan = _namaPemesanController.text;
     final jumlahKamar = int.tryParse(_jumlahKamarController.text);
     final tanggalSurvey = _tanggalSurveyController.text;
-    final email = _emailController.text;
     final berapaBulan = _berapaBulanController.text;
 
     if (namaPemesan.isEmpty ||
         jumlahKamar == null ||
         tanggalSurvey.isEmpty ||
-        email.isEmpty) {
+        berapaBulan.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Harap isi semua field dengan benar!')),
       );
@@ -45,28 +43,24 @@ class _PesanScreenState extends State<PesanScreen> {
         'jumlah_kamar': jumlahKamar,
         'tanggal_survey': tanggalSurvey,
         'berapa_bulan': berapaBulan,
-        'email': widget.email,
+        'email': widget.email, // Email dari login
         'nama_kos': widget.kosData['nama_kos'],
         'alamat_kos': widget.kosData['alamat_kos'],
-      });
+      }).select();
 
-      // Periksa apakah response gagal
-      if (response != null &&
-          response is Map &&
-          response.containsKey('error')) {
-        throw Exception(response['error']['message']);
+      if (response.isEmpty) {
+        throw Exception('Data tidak berhasil disimpan.');
       }
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Pesanan berhasil dibuat!')),
       );
 
-      // Reset form
+      // Reset form fields
       _namaPemesanController.clear();
       _jumlahKamarController.clear();
       _berapaBulanController.clear();
       _tanggalSurveyController.clear();
-      _emailController.clear();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Gagal membuat pesanan: $e')),
@@ -86,8 +80,10 @@ class _PesanScreenState extends State<PesanScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Pesan kos: ${widget.kosData['nama_kos']}',
-                  style: const TextStyle(fontSize: 18)),
+              Text(
+                'Pesan kos: ${widget.kosData['nama_kos']}',
+                style: const TextStyle(fontSize: 18),
+              ),
               Image.asset('assets/images/kosan.jpg'),
               const SizedBox(height: 8),
               Text('Alamat: ${widget.kosData['alamat_kos']}'),
