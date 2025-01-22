@@ -18,12 +18,14 @@ class _PesanScreenState extends State<PesanScreen> {
   final _jumlahKamarController = TextEditingController();
   final _tanggalSurveyController = TextEditingController();
   final _emailController = TextEditingController();
+  final _berapaBulanController = TextEditingController();
 
   Future<void> _pesanKosan() async {
     final namaPemesan = _namaPemesanController.text;
     final jumlahKamar = int.tryParse(_jumlahKamarController.text);
     final tanggalSurvey = _tanggalSurveyController.text;
     final email = _emailController.text;
+    final berapaBulan = _berapaBulanController.text;
 
     if (namaPemesan.isEmpty ||
         jumlahKamar == null ||
@@ -40,6 +42,7 @@ class _PesanScreenState extends State<PesanScreen> {
         'nama_pemesan': namaPemesan,
         'jumlah_kamar': jumlahKamar,
         'tanggal_survey': tanggalSurvey,
+        'berapa_bulan': berapaBulan,
         'email': email,
         'nama_kos': widget.kosData['nama_kos'],
         'alamat_kos': widget.kosData['alamat_kos'],
@@ -59,6 +62,7 @@ class _PesanScreenState extends State<PesanScreen> {
       // Reset form
       _namaPemesanController.clear();
       _jumlahKamarController.clear();
+      _berapaBulanController.clear();
       _tanggalSurveyController.clear();
       _emailController.clear();
     } catch (e) {
@@ -85,10 +89,10 @@ class _PesanScreenState extends State<PesanScreen> {
               Image.asset('assets/images/kosan.jpg'),
               const SizedBox(height: 8),
               Text('Alamat: ${widget.kosData['alamat_kos']}'),
-              Text('Harga: Rp ${widget.kosData['harga_sewa']}/bulan'),
               Text('Jenis Kos: ${widget.kosData['jenis_kos'] ?? ''}'),
               Text('Fasilitas: ${widget.kosData['fasilitas'] ?? ''}'),
               Text('Email Pemilik: ${widget.kosData['email_pengguna'] ?? ''}'),
+              Text('Harga: Rp ${widget.kosData['harga_sewa']}/bulan'),
               const SizedBox(height: 16),
               TextField(
                 controller: _namaPemesanController,
@@ -105,6 +109,12 @@ class _PesanScreenState extends State<PesanScreen> {
                 ),
               ),
               const SizedBox(height: 8),
+              TextField(
+                controller: _berapaBulanController,
+                decoration: const InputDecoration(
+                  labelText: 'Jumlah Bulan',
+                ),
+              ),
               TextField(
                 controller: _tanggalSurveyController,
                 decoration: const InputDecoration(

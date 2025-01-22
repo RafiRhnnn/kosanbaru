@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:kosautb/screens/login/login_screen.dart';
 import 'package:kosautb/screens/pencarikos/pesan_screen.dart';
 import 'home_screen.dart';
 import 'pesanan_screen.dart';
@@ -120,6 +121,18 @@ class _PencariKosScreenState extends State<PencariKosScreen> {
               onTap: () {
                 setState(() => _currentIndex = 2);
                 Navigator.pop(context);
+              },
+            ),
+            const Divider(), // Garis pemisah
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text('Keluar'),
+              onTap: () {
+                // Arahkan ke halaman login_screen.dart
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                );
               },
             ),
           ],
