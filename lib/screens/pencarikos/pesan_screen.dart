@@ -46,7 +46,8 @@ class _PesanScreenState extends State<PesanScreen> {
         'email': widget.email, // Email dari login
         'nama_kos': widget.kosData['nama_kos'],
         'alamat_kos': widget.kosData['alamat_kos'],
-        'harga_sewa': widget.kosData['harga_sewa'], // Tambahkan harga sewa
+        'harga_sewa': widget.kosData['harga_sewa'],
+        'email_pemilik': widget.kosData['email_pengguna'],
       }).select();
 
       if (response.isEmpty) {
