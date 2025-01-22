@@ -25,14 +25,10 @@ class _PesananScreenState extends State<PesananScreen> {
           .select()
           .order('created_at', ascending: false);
 
-      if (response is List) {
-        setState(() {
-          _pesananList = response.cast<Map<String, dynamic>>();
-          _isLoading = false;
-        });
-      } else {
-        throw Exception('Failed to fetch data');
-      }
+      setState(() {
+        _pesananList = response.cast<Map<String, dynamic>>();
+        _isLoading = false;
+      });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Gagal mengambil data pesanan: $e')),

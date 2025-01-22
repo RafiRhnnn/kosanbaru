@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
-import 'package:kosautb/screens/login/login_screen.dart';
 import 'package:kosautb/screens/pencarikos/pesan_screen.dart';
 import 'home_screen.dart';
 import 'pesanan_screen.dart';
 import 'profile_screen.dart';
 
 class PencariKosScreen extends StatefulWidget {
-  const PencariKosScreen({super.key});
+  final String email; // [Tambahan Baru] Tambahkan properti email
+
+  const PencariKosScreen({
+    super.key,
+    required this.email, // [Tambahan Baru]
+  });
 
   @override
   State<PencariKosScreen> createState() => _PencariKosScreenState();
@@ -38,18 +42,19 @@ class _PencariKosScreenState extends State<PencariKosScreen> {
           ),
           actions: [
             TextButton(
-              onPressed: () =>
-                  Navigator.pop(context), // Aksi untuk tombol "Tutup"
+              onPressed: () => Navigator.pop(context),
               child: const Text('Tutup'),
             ),
             TextButton(
               onPressed: () {
-                // Aksi untuk tombol "Pesan", navigasi ke halaman pesan_screen.dart
+                // [Tambahan Baru] Navigasi ke PesanScreen dengan mengirimkan email
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        PesanScreen(kosData: kosData), // Kirim data kos
+                    builder: (context) => PesanScreen(
+                      kosData: kosData,
+                      email: widget.email, // [Tambahan Baru]
+                    ),
                   ),
                 );
               },
@@ -72,76 +77,10 @@ class _PencariKosScreenState extends State<PencariKosScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pencari Kos'),
-        leading: Builder(
-          builder: (context) {
-            return IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            );
-          },
-        ),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text('Home'),
-              onTap: () {
-                setState(() => _currentIndex = 0);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.message),
-              title: const Text('Pesanan'),
-              onTap: () {
-                setState(() => _currentIndex = 1);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.person),
-              title: const Text('Profile'),
-              onTap: () {
-                setState(() => _currentIndex = 2);
-                Navigator.pop(context);
-              },
-            ),
-            const Divider(), // Garis pemisah
-            ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text('Keluar'),
-              onTap: () {
-                // Arahkan ke halaman login_screen.dart
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginScreen()),
-                );
-              },
-            ),
-          ],
-        ),
       ),
       body: pages[_currentIndex],
       bottomNavigationBar: BottomNavyBar(
         selectedIndex: _currentIndex,
-        showElevation: true,
         onItemSelected: (index) => setState(() => _currentIndex = index),
         items: [
           BottomNavyBarItem(

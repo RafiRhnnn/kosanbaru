@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PesananScreen extends StatelessWidget {
-  const PesananScreen({Key? key}) : super(key: key);
+  const PesananScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

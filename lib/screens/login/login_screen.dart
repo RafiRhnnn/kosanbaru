@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kosautb/screens/pemilikkos/pemilikkos_screen.dart';
+import 'package:kosautb/screens/pencarikos/pencarikos_screen.dart';
 import '../../services/auth_service.dart';
 import '../../widgets/custom_text_field.dart';
 import '../register/register_screen.dart';
-import '../pemilikkos/pemilikkos_screen.dart';
-import '../pencarikos/pencarikos_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -42,6 +42,7 @@ class LoginScreen extends StatelessWidget {
       final userEmail = response['email'];
 
       if (role == 'pemilik') {
+        // Navigasi ke halaman PemilikKosScreen
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -49,10 +50,12 @@ class LoginScreen extends StatelessWidget {
           ),
         );
       } else if (role == 'pencari') {
+        // [Tambahan Baru]
+        // Navigasi ke halaman PencariKosScreen dengan mengirimkan email
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PencariKosScreen(),
+            builder: (context) => PencariKosScreen(email: userEmail),
           ),
         );
       } else {
@@ -63,15 +66,15 @@ class LoginScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: Colors.grey, // Mengubah background menjadi abu-abu
+      backgroundColor: Colors.grey,
       appBar: AppBar(
-        backgroundColor: Colors.grey, // AppBar juga berwarna abu-abu
+        backgroundColor: Colors.grey,
         elevation: 0,
         title: const Center(
           child: Text(
             'Login',
             style: TextStyle(
-              fontWeight: FontWeight.bold, // Membuat teks Login menjadi tebal
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
@@ -82,16 +85,13 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Logo di atas
               Center(
                 child: Image.asset(
-                  'assets/images/logoutbkos.png', // Path logo Anda
-                  height: 150, // Logo lebih besar
+                  'assets/images/logoutbkos.png',
+                  height: 150,
                 ),
               ),
               const SizedBox(height: 30),
-
-              // Card untuk form dan tombol
               Card(
                 elevation: 5,
                 shape: RoundedRectangleBorder(
@@ -115,8 +115,7 @@ class LoginScreen extends StatelessWidget {
                       ElevatedButton(
                         onPressed: loginUser,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Colors.blue, // Tombol dengan warna biru
+                          backgroundColor: Colors.blue,
                         ),
                         child: const Text(
                           'Login',

@@ -3,10 +3,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PesanScreen extends StatefulWidget {
   final Map<String, dynamic> kosData;
+  final String email;
 
   const PesanScreen({
     super.key,
     required this.kosData,
+    required this.email,
   });
 
   @override
@@ -43,7 +45,7 @@ class _PesanScreenState extends State<PesanScreen> {
         'jumlah_kamar': jumlahKamar,
         'tanggal_survey': tanggalSurvey,
         'berapa_bulan': berapaBulan,
-        'email': email,
+        'email': widget.email,
         'nama_kos': widget.kosData['nama_kos'],
         'alamat_kos': widget.kosData['alamat_kos'],
       });
@@ -122,11 +124,10 @@ class _PesanScreenState extends State<PesanScreen> {
                 ),
               ),
               const SizedBox(height: 8),
-              TextField(
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                ),
+              TextFormField(
+                initialValue: widget.email, // Email dari login
+                enabled: false, // Tidak dapat diubah oleh pengguna
+                decoration: const InputDecoration(labelText: 'Email Pengguna'),
               ),
               const SizedBox(height: 16),
               ElevatedButton(
