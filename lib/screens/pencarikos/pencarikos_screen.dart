@@ -70,7 +70,7 @@ class _PencariKosScreenState extends State<PencariKosScreen> {
   Widget build(BuildContext context) {
     final pages = [
       HomeScreen(onKosTap: _showKosDetail),
-      const PesananScreen(),
+      PesananScreen(email: widget.email), // Kirim email ke PesananScreen
       const ProfileScreen(),
     ];
 

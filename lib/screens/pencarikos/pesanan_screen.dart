@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PesananScreen extends StatefulWidget {
-  const PesananScreen({super.key});
+  final String email; // Email pengguna yang login
+
+  const PesananScreen({super.key, required this.email});
 
   @override
   State<PesananScreen> createState() => _PesananScreenState();
@@ -20,9 +22,11 @@ class _PesananScreenState extends State<PesananScreen> {
 
   Future<void> _fetchPesanan() async {
     try {
+      // Ambil data pesanan berdasarkan email pengguna
       final response = await Supabase.instance.client
           .from('pesanan')
           .select()
+          .eq('email', widget.email) // Filter berdasarkan email
           .order('created_at', ascending: false);
 
       setState(() {
