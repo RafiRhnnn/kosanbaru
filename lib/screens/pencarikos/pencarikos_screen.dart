@@ -75,9 +75,6 @@ class _PencariKosScreenState extends State<PencariKosScreen> {
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Pencari Kos'),
-      ),
       body: pages[_currentIndex],
       bottomNavigationBar: BottomNavyBar(
         selectedIndex: _currentIndex,
