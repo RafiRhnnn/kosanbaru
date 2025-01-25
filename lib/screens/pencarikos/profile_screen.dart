@@ -10,6 +10,7 @@ class ProfileScreen extends StatelessWidget {
       child: Column(
         children: [
           // Foto Profil
+          const SizedBox(height: 80),
           Container(
             margin: const EdgeInsets.only(top: 20),
             child: CircleAvatar(

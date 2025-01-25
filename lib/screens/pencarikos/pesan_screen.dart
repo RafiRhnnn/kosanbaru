@@ -70,6 +70,22 @@ class _PesanScreenState extends State<PesanScreen> {
     }
   }
 
+  Future<void> _selectDate() async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000), // Tanggal awal
+      lastDate: DateTime(2100), // Tanggal akhir
+    );
+
+    if (pickedDate != null) {
+      setState(() {
+        _tanggalSurveyController.text =
+            pickedDate.toIso8601String().split('T')[0]; // Format YYYY-MM-DD
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,55 +98,132 @@ class _PesanScreenState extends State<PesanScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Teks "Pesan kos: nama kos" di bagian atas
               Text(
                 'Pesan kos: ${widget.kosData['nama_kos']}',
-                style: const TextStyle(fontSize: 18),
-              ),
-              Image.asset('assets/images/kosan.jpg'),
-              const SizedBox(height: 8),
-              Text('Alamat: ${widget.kosData['alamat_kos']}'),
-              Text('Jenis Kos: ${widget.kosData['jenis_kos'] ?? ''}'),
-              Text('Fasilitas: ${widget.kosData['fasilitas'] ?? ''}'),
-              Text('Email Pemilik: ${widget.kosData['email_pengguna'] ?? ''}'),
-              Text('Harga: Rp ${widget.kosData['harga_sewa']}/bulan'),
-              const SizedBox(height: 16),
-              TextField(
-                controller: _namaPemesanController,
-                decoration: const InputDecoration(
-                  labelText: 'Nama Pemesan',
+                style: const TextStyle(
+                  fontSize: 25, // Ukuran font lebih besar
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 8),
-              TextField(
-                controller: _jumlahKamarController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: 'Jumlah Kamar',
+              Card(
+                elevation: 5,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      // Gambar Kos
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.asset(
+                          'assets/images/kosan.jpg',
+                          width: 120,
+                          height: 180,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      // Deskripsi Kos dengan ukuran font lebih besar
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.topLeft, // Geser ke atas
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Alamat: ${widget.kosData['alamat_kos']}',
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                'Jenis Kos: ${widget.kosData['jenis_kos'] ?? ''}',
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                'Fasilitas: ${widget.kosData['fasilitas'] ?? ''}',
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                'Email Pemilik: ${widget.kosData['email_pengguna'] ?? ''}',
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                'Harga: Rp ${widget.kosData['harga_sewa']}/bulan',
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(height: 8),
-              TextField(
-                controller: _berapaBulanController,
-                decoration: const InputDecoration(
-                  labelText: 'Jumlah Bulan',
+              const SizedBox(height: 60),
+              // Input form in a single card
+              Card(
+                elevation: 5,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextField(
+                        controller: _namaPemesanController,
+                        decoration: const InputDecoration(
+                          labelText: 'Nama Pemesan',
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      TextField(
+                        controller: _jumlahKamarController,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          labelText: 'Jumlah Kamar',
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      TextField(
+                        controller: _berapaBulanController,
+                        decoration: const InputDecoration(
+                          labelText: 'Jumlah Bulan',
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      GestureDetector(
+                        onTap: _selectDate,
+                        child: AbsorbPointer(
+                          child: TextField(
+                            controller: _tanggalSurveyController,
+                            decoration: const InputDecoration(
+                              labelText: 'Tanggal Survey (YYYY-MM-DD)',
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      TextFormField(
+                        initialValue: widget.email, // Email dari login
+                        enabled: false, // Tidak dapat diubah oleh pengguna
+                        decoration:
+                            const InputDecoration(labelText: 'Email Pengguna'),
+                      ),
+                      const SizedBox(height: 40),
+                      ElevatedButton(
+                        onPressed: _pesanKosan,
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.blue,
+                        ),
+                        child: const Text('Konfirmasi Pesanan'),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              TextField(
-                controller: _tanggalSurveyController,
-                decoration: const InputDecoration(
-                  labelText: 'Tanggal Survey (YYYY-MM-DD)',
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextFormField(
-                initialValue: widget.email, // Email dari login
-                enabled: false, // Tidak dapat diubah oleh pengguna
-                decoration: const InputDecoration(labelText: 'Email Pengguna'),
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _pesanKosan,
-                child: const Text('Konfirmasi Pesanan'),
               ),
             ],
           ),

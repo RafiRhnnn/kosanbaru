@@ -90,83 +90,111 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         toolbarHeight: 130,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: _filteredKosList.isEmpty
-                ? const Center(
-                    child: Text(
-                      'Tidak ada kos yang ditemukan',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  )
-                : GridView.builder(
-                    padding: const EdgeInsets.all(16.0),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 16.0,
-                      crossAxisSpacing: 16.0,
-                      childAspectRatio: 1.0,
-                    ),
-                    itemCount: _filteredKosList.length,
+      body: _filteredKosList.isEmpty
+          ? const Center(
+              child: Text(
+                'Tidak ada kos yang ditemukan',
+                style: TextStyle(fontSize: 16),
+              ),
+            )
+          : ListView(
+              children: [
+                const SizedBox(height: 60),
+                // Banner Slider
+                SizedBox(
+                  height: 200,
+                  child: PageView.builder(
+                    itemCount: 4,
+                    controller: PageController(viewportFraction: 0.9),
                     itemBuilder: (context, index) {
-                      final kos = _filteredKosList[index];
-                      return GestureDetector(
-                        onTap: () => widget.onKosTap(kos),
-                        child: Card(
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Expanded(
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.vertical(
-                                      top: Radius.circular(15)),
-                                  child: Image.asset(
-                                    'assets/images/kosan.jpg',
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      kos['nama_kos'] ?? 'Kos Tanpa Nama',
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      'Rp ${kos['harga_sewa'] ?? 'N/A'}/bulan',
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                      final bannerImages = [
+                        'assets/images/banner_0.jpg',
+                        'assets/images/banner_1.jpg',
+                        'assets/images/banner_2.jpg',
+                        'assets/images/banner_3.jpg',
+                      ];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: Image.asset(
+                            bannerImages[index], // Menggunakan list gambar
+                            fit: BoxFit.cover,
                           ),
                         ),
                       );
                     },
                   ),
-          ),
-        ],
-      ),
+                ),
+                const SizedBox(height: 16),
+                // GridView Kos List
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.all(16.0),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 16.0,
+                    crossAxisSpacing: 16.0,
+                    childAspectRatio: 1.0,
+                  ),
+                  itemCount: _filteredKosList.length,
+                  itemBuilder: (context, index) {
+                    final kos = _filteredKosList[index];
+                    return GestureDetector(
+                      onTap: () => widget.onKosTap(kos),
+                      child: Card(
+                        elevation: 4,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Expanded(
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(15)),
+                                child: Image.asset(
+                                  'assets/images/kosan.jpg',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    kos['nama_kos'] ?? 'Kos Tanpa Nama',
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    'Rp ${kos['harga_sewa'] ?? 'N/A'}/bulan',
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
     );
   }
 }
