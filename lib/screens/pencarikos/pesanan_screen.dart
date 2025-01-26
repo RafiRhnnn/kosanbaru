@@ -89,6 +89,7 @@ class _PesananScreenState extends State<PesananScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey, // Warna background estetik
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _pesananList.isEmpty
@@ -123,43 +124,65 @@ class _PesananScreenState extends State<PesananScreen> {
                         child: const Icon(Icons.delete, color: Colors.white),
                       ),
                       child: Card(
-                        margin: const EdgeInsets.all(8.0),
+                        margin: const EdgeInsets.all(12.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        elevation: 4,
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(16.0),
                           child: Row(
                             children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image.asset(
+                                  'assets/images/kosan.jpg', // Ganti dengan gambar Anda
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              const SizedBox(width: 16),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Nama Pemesan: ${pesanan['nama_pemesan']}',
+                                      pesanan['nama_pemesan'],
                                       style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                    Text('Nama Kos: ${pesanan['nama_kos']}'),
+                                    const SizedBox(height: 4),
                                     Text(
-                                        'Alamat Kos: ${pesanan['alamat_kos']}'),
+                                      pesanan['nama_kos'],
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black54,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text('Alamat: ${pesanan['alamat_kos']}',
+                                        style: const TextStyle(fontSize: 14)),
                                     Text(
-                                        'Jumlah Kamar: ${pesanan['jumlah_kamar']}'),
+                                        'Jumlah Kamar: ${pesanan['jumlah_kamar']}',
+                                        style: const TextStyle(fontSize: 14)),
                                     Text(
-                                        'Jumlah Bulan: ${pesanan['berapa_bulan']}'),
+                                        'Tanggal Survey: ${pesanan['tanggal_survey']}',
+                                        style: const TextStyle(fontSize: 14)),
+                                    Text('Harga Sewa/Bulan: Rp $hargaSewa',
+                                        style: const TextStyle(fontSize: 14)),
                                     Text(
-                                        'Tanggal Survey: ${pesanan['tanggal_survey']}'),
-                                    Text('Email: ${pesanan['email']}'),
-                                    Text('Harga Sewa /Bulan: Rp $hargaSewa'),
-                                    Text(
-                                      'Total Harga Sewa : Rp $totalHarga',
+                                      'Total Harga: Rp $totalHarga',
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.green,
+                                      ),
                                     ),
                                   ],
                                 ),
-                              ),
-                              const SizedBox(width: 8),
-                              Image.asset(
-                                'assets/images/kosan.jpg', // Ganti dengan gambar Anda
-                                width: 80,
-                                height: 80,
-                                fit: BoxFit.cover,
                               ),
                             ],
                           ),

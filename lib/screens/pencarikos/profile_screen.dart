@@ -21,23 +21,12 @@ class ProfileScreen extends StatelessWidget {
 
           const SizedBox(height: 20),
 
-          // Nama Pengguna
-          const Text(
-            'Nama Pengguna',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-          const SizedBox(height: 10),
-
           // Email Pengguna
           const Text(
             'user@example.com',
             style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
             ),
           ),
 

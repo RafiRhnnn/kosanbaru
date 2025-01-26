@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'dart:async';
 
 class HomeScreen extends StatefulWidget {
   final Function(Map<String, dynamic>) onKosTap;
@@ -50,9 +51,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey, // Mengatur background menjadi warna abu-abu
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0,
+        backgroundColor: Colors.yellow,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -60,36 +63,55 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 CircleAvatar(
                   backgroundImage: AssetImage('assets/images/profile.jpg'),
-                  radius: 20,
+                  radius: 18,
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 8),
                 const Text(
                   'Welcome Pencari',
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: 20),
                 ),
               ],
             ),
-            const SizedBox(height: 30),
-            TextField(
-              onChanged: _filterKos,
-              decoration: InputDecoration(
-                hintText: 'Cari nama kos...',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                  borderSide: const BorderSide(color: Colors.black),
+            const SizedBox(height: 8), // Kurangi jarak antar elemen
+            SizedBox(
+              height: 32, // Tinggi kotak pencarian lebih kecil
+              child: TextField(
+                onChanged: _filterKos,
+                decoration: InputDecoration(
+                  hintText: 'Cari kos...',
+                  hintStyle: TextStyle(
+                      fontSize: 12), // Ukuran teks placeholder lebih kecil
+                  prefixIcon:
+                      const Icon(Icons.search, size: 16), // Ikon lebih kecil
+                  border: OutlineInputBorder(
+                    borderRadius:
+                        BorderRadius.circular(15.0), // Border lebih kecil
+                    borderSide: BorderSide(color: Colors.grey[200]!),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                    borderSide: BorderSide(color: Colors.grey[400]!),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 0,
+                    horizontal: 8, // Padding horizontal lebih kecil
+                  ),
                 ),
-                filled: true,
-                fillColor: Colors.grey[200],
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+                style: const TextStyle(fontSize: 12, color: Colors.white),
               ),
-              style: const TextStyle(fontSize: 14),
             ),
+            const SizedBox(height: 12), // Jarak bawah di bagian header
           ],
         ),
-        toolbarHeight: 130,
+        toolbarHeight: 90, // Kurangi tinggi AppBar
       ),
+
       body: _filteredKosList.isEmpty
           ? const Center(
               child: Text(
@@ -99,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           : ListView(
               children: [
-                const SizedBox(height: 60),
+                const SizedBox(height: 40),
                 // Banner Slider
                 SizedBox(
                   height: 200,
@@ -126,8 +148,40 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 ),
-                const SizedBox(height: 16),
-                // GridView Kos List
+                const SizedBox(height: 20),
+
+                // *** Menambahkan Teks "Silahkan memilih kos" ***
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Container(
+                    padding: const EdgeInsets.all(
+                        8.0), // Memberikan padding di dalam kotak
+                    decoration: BoxDecoration(
+                      color: Colors.white, // Warna latar belakang kotak
+                      borderRadius: BorderRadius.circular(
+                          10), // Memberikan sudut membulat
+                      border: Border.all(
+                        color: Colors.grey, // Warna border
+                        width: 1, // Ketebalan border
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Silahkan memilih kos', // Teks yang ditambahkan
+                          style: const TextStyle(
+                            fontWeight:
+                                FontWeight.bold, // Membuat teks menjadi tebal
+                            fontSize: 18, // Ukuran teks
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                // *** GridView Kos List ***
                 GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -181,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
                                       fontSize: 12,
-                                      color: Colors.grey,
+                                      color: Colors.green,
                                     ),
                                   ),
                                 ],
