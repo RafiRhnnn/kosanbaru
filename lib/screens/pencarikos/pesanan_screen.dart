@@ -181,6 +181,8 @@ class _PesananScreenState extends State<PesananScreen> {
                                         color: Colors.green,
                                       ),
                                     ),
+                                    Text('Status: ${pesanan['status']}',
+                                        style: const TextStyle(fontSize: 14)),
                                   ],
                                 ),
                               ),

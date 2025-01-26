@@ -22,11 +22,10 @@ class _PesananScreenState extends State<PesananScreen> {
 
   Future<void> _fetchPesanan() async {
     try {
-      // Ambil data pesanan berdasarkan email pengguna
       final response = await Supabase.instance.client
           .from('pesanan')
           .select()
-          .eq('email_pemilik', widget.email) // Filter berdasarkan email
+          .eq('email_pemilik', widget.email)
           .order('created_at', ascending: false);
 
       setState(() {
@@ -41,6 +40,55 @@ class _PesananScreenState extends State<PesananScreen> {
         _isLoading = false;
       });
     }
+  }
+
+  Future<void> _updateStatus(int id, String newStatus) async {
+    try {
+      await Supabase.instance.client
+          .from('pesanan')
+          .update({'status': newStatus}).eq('id', id);
+
+      setState(() {
+        final pesanan =
+            _pesananList.firstWhere((pesanan) => pesanan['id'] == id);
+        pesanan['status'] = newStatus;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Status berhasil diperbarui.')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal memperbarui status: $e')),
+      );
+    }
+  }
+
+  void _konfirmasiHapusPesanan(int id) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Konfirmasi Hapus'),
+          content: const Text('Apakah Anda yakin ingin menghapus pesanan ini?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Tidak'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _hapusPesanan(id);
+              },
+              child: const Text('Iya'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<void> _hapusPesanan(int id) async {
@@ -59,33 +107,6 @@ class _PesananScreenState extends State<PesananScreen> {
     }
   }
 
-  void _konfirmasiHapusPesanan(int id) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Konfirmasi Hapus'),
-          content: const Text('Apakah Anda yakin ingin menghapus pesanan ini?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Tutup dialog
-              },
-              child: const Text('Tidak'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Tutup dialog
-                _hapusPesanan(id); // Hapus pesanan
-              },
-              child: const Text('Iya'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,7 +119,6 @@ class _PesananScreenState extends State<PesananScreen> {
                   itemBuilder: (context, index) {
                     final pesanan = _pesananList[index];
 
-                    // Logika menghitung total harga
                     final hargaSewa = pesanan['harga_sewa'] is int
                         ? pesanan['harga_sewa']
                         : int.tryParse(pesanan['harga_sewa'].toString()) ?? 0;
@@ -114,7 +134,7 @@ class _PesananScreenState extends State<PesananScreen> {
                       direction: DismissDirection.endToStart,
                       confirmDismiss: (direction) async {
                         _konfirmasiHapusPesanan(pesanan['id']);
-                        return false; // Jangan langsung hapus, tunggu konfirmasi
+                        return false;
                       },
                       background: Container(
                         alignment: Alignment.centerRight,
@@ -151,12 +171,42 @@ class _PesananScreenState extends State<PesananScreen> {
                                     Text(
                                       'Total Harga Sewa : Rp $totalHarga',
                                     ),
+                                    Row(
+                                      children: [
+                                        const Text('Status: '),
+                                        DropdownButton<String>(
+                                          value: [
+                                            'Disetujui',
+                                            'Ditolak',
+                                            'Pending'
+                                          ].contains(pesanan['status'])
+                                              ? pesanan['status']
+                                              : 'Pending', // Set default value jika nilai tidak valid
+                                          items: [
+                                            'Disetujui',
+                                            'Ditolak',
+                                            'Pending'
+                                          ]
+                                              .map((status) => DropdownMenuItem(
+                                                    value: status,
+                                                    child: Text(status),
+                                                  ))
+                                              .toList(),
+                                          onChanged: (newValue) {
+                                            if (newValue != null) {
+                                              _updateStatus(
+                                                  pesanan['id'], newValue);
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    ),
                                   ],
                                 ),
                               ),
                               const SizedBox(width: 8),
                               Image.asset(
-                                'assets/images/kosan.jpg', // Ganti dengan gambar Anda
+                                'assets/images/kosan.jpg',
                                 width: 80,
                                 height: 80,
                                 fit: BoxFit.cover,

@@ -20,12 +20,14 @@ class _PesanScreenState extends State<PesanScreen> {
   final _jumlahKamarController = TextEditingController();
   final _tanggalSurveyController = TextEditingController();
   final _berapaBulanController = TextEditingController();
+  final _statusController = TextEditingController(text: 'pending');
 
   Future<void> _pesanKosan() async {
     final namaPemesan = _namaPemesanController.text;
     final jumlahKamar = int.tryParse(_jumlahKamarController.text);
     final tanggalSurvey = _tanggalSurveyController.text;
     final berapaBulan = _berapaBulanController.text;
+    final status = _statusController.text;
 
     if (namaPemesan.isEmpty ||
         jumlahKamar == null ||
@@ -48,6 +50,7 @@ class _PesanScreenState extends State<PesanScreen> {
         'alamat_kos': widget.kosData['alamat_kos'],
         'harga_sewa': widget.kosData['harga_sewa'],
         'email_pemilik': widget.kosData['email_pengguna'],
+        'status': status,
       }).select();
 
       if (response.isEmpty) {
@@ -211,6 +214,14 @@ class _PesanScreenState extends State<PesanScreen> {
                         enabled: false, // Tidak dapat diubah oleh pengguna
                         decoration:
                             const InputDecoration(labelText: 'Email Pengguna'),
+                      ),
+                      TextFormField(
+                        controller:
+                            _statusController, // Nilai tetap yang ditampilkan
+                        enabled: false, // Tidak dapat diubah oleh pengguna
+                        decoration: const InputDecoration(
+                          labelText: 'Status', // Label di atas field
+                        ),
                       ),
                       const SizedBox(height: 40),
                       ElevatedButton(
