@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:async';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class HomeScreen extends StatefulWidget {
   final Function(Map<String, dynamic>) onKosTap;
@@ -111,7 +112,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         toolbarHeight: 90, // Kurangi tinggi AppBar
       ),
-
       body: _filteredKosList.isEmpty
           ? const Center(
               child: Text(
@@ -122,33 +122,39 @@ class _HomeScreenState extends State<HomeScreen> {
           : ListView(
               children: [
                 const SizedBox(height: 40),
-                // Banner Slider
-                SizedBox(
-                  height: 200,
-                  child: PageView.builder(
-                    itemCount: 4,
-                    controller: PageController(viewportFraction: 0.9),
-                    itemBuilder: (context, index) {
-                      final bannerImages = [
-                        'assets/images/banner_0.jpg',
-                        'assets/images/banner_1.jpg',
-                        'assets/images/banner_2.jpg',
-                        'assets/images/banner_3.jpg',
-                      ];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-                          child: Image.asset(
-                            bannerImages[index], // Menggunakan list gambar
-                            fit: BoxFit.cover,
-                          ),
+                // Banner Slider (CarouselSlider)
+                CarouselSlider(
+                  items: [
+                    'assets/images/banner_0.jpg',
+                    'assets/images/banner_1.jpg',
+                    'assets/images/banner_2.jpg',
+                    'assets/images/banner_3.jpg',
+                  ].map((imagePath) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: ClipRRect(
+                        borderRadius:
+                            BorderRadius.circular(15), // Sudut melengkung
+                        child: Image.asset(
+                          imagePath,
+                          fit: BoxFit.cover,
                         ),
-                      );
-                    },
+                      ),
+                    );
+                  }).toList(),
+                  options: CarouselOptions(
+                    height: 200, // Tinggi tetap
+                    autoPlay: true,
+                    autoPlayInterval: const Duration(seconds: 5),
+                    autoPlayAnimationDuration:
+                        const Duration(milliseconds: 800),
+                    autoPlayCurve: Curves.easeInOut,
+                    enableInfiniteScroll: true,
+                    enlargeCenterPage: true,
+                    viewportFraction: 0.9,
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 65),
 
                 // *** Menambahkan Teks "Silahkan memilih kos" ***
                 Padding(
