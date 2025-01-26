@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:kosautb/screens/pemilikkos/editkos_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'tambah_screen.dart';
 import 'home_screen.dart'; // Import file Home
@@ -43,7 +44,7 @@ class _PemilikKosScreenState extends State<PemilikKosScreen> {
   Widget build(BuildContext context) {
     final List<Widget> pages = [
       const HomeScreen(),
-      const PesananScreen(),
+      PesananScreen(email: widget.email),
       FutureBuilder<List<Map<String, dynamic>>>(
         future: _kosList,
         builder: (context, snapshot) {
@@ -184,9 +185,48 @@ class _PemilikKosScreenState extends State<PemilikKosScreen> {
               onPressed: () => Navigator.pop(context),
               child: const Text('Tutup'),
             ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Tutup dialog
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditKosForm(kosData: kosData),
+                  ),
+                );
+              },
+              child: const Text('Edit'),
+            ),
+            IconButton(
+              icon: const Icon(Icons.delete, color: Colors.red),
+              onPressed: () {
+                _deleteKos(kosData['id']); // Panggil fungsi hapus
+              },
+            ),
           ],
         );
       },
     );
+  }
+
+  Future<void> _deleteKos(int kosId) async {
+    final supabase = Supabase.instance.client;
+
+    try {
+      await supabase.from('tambahkos').delete().eq('id', kosId);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Kos berhasil dihapus!')),
+      );
+
+      // Perbarui data setelah penghapusan
+      setState(() {
+        _kosList = fetchKosData();
+      });
+      Navigator.pop(context); // Tutup dialog jika masih terbuka
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal menghapus kos: $e')),
+      );
+    }
   }
 }
