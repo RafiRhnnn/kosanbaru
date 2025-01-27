@@ -71,7 +71,7 @@ class _PencariKosScreenState extends State<PencariKosScreen> {
     final pages = [
       HomeScreen(onKosTap: _showKosDetail),
       PesananScreen(email: widget.email), // Kirim email ke PesananScreen
-      const ProfileScreen(),
+      ProfileScreen(email: widget.email)
     ];
 
     return Scaffold(
