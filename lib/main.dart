@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'config/supabase_config.dart'; // Konfigurasi Supabase
+import 'config/supabase_config.dart';
+import 'screens/splash_screen.dart'; // Mengimpor SplashScreen
 import 'screens/login/login_screen.dart'; // Mengimpor LoginScreen
 import 'screens/register/register_screen.dart'; // Mengimpor RegisterScreen
 
@@ -32,10 +33,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // Tambahkan navigasi berbasis rute
-      initialRoute: '/',
+      // Menjadikan splash screen sebagai halaman awal
+      initialRoute: '/splash',
       routes: {
-        '/': (context) => const LoginScreen(),
+        '/splash': (context) => const SplashScreen(),
+        '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
       },
     );
