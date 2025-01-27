@@ -38,6 +38,7 @@ class _TambahKosFormState extends State<TambahKosForm> {
           'fasilitas': _fasilitasController.text,
           'email_pengguna': widget.email,
         });
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Data berhasil disimpan!')),
         );
@@ -45,6 +46,10 @@ class _TambahKosFormState extends State<TambahKosForm> {
         setState(() {
           _jenisKos = null;
         });
+
+        // Kembali ke halaman Home dan kirim data yang baru ditambahkan
+        Navigator.pop(context,
+            true); // Passing `true` to indicate that data has been added
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Gagal menyimpan data: $e')),

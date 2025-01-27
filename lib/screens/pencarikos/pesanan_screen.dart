@@ -177,12 +177,36 @@ class _PesananScreenState extends State<PesananScreen> {
                                       'Total Harga: Rp $totalHarga',
                                       style: const TextStyle(
                                         fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.green,
+                                        color: Colors.black,
                                       ),
                                     ),
-                                    Text('Status: ${pesanan['status']}',
-                                        style: const TextStyle(fontSize: 14)),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Status: ',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.black),
+                                        ),
+                                        Text(
+                                          '${pesanan['status']}',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            color: pesanan['status'] ==
+                                                    'Disetujui'
+                                                ? Colors.green
+                                                : pesanan['status'] == 'Ditolak'
+                                                    ? Colors.red
+                                                    : pesanan['status'] ==
+                                                            'Pending'
+                                                        ? Colors.orangeAccent
+                                                        : Colors
+                                                            .black, // default color if status is not recognized
+                                          ),
+                                        ),
+                                      ],
+                                    )
                                   ],
                                 ),
                               ),

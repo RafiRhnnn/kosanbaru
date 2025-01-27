@@ -134,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: ClipRRect(
                         borderRadius:
-                            BorderRadius.circular(15), // Sudut melengkung
+                            BorderRadius.circular(10), // Sudut melengkung
                         child: Image.asset(
                           imagePath,
                           fit: BoxFit.cover,
@@ -143,9 +143,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   }).toList(),
                   options: CarouselOptions(
-                    height: 200, // Tinggi tetap
+                    height: 160, // Tinggi tetap
                     autoPlay: true,
-                    autoPlayInterval: const Duration(seconds: 5),
+                    autoPlayInterval: const Duration(seconds: 6),
                     autoPlayAnimationDuration:
                         const Duration(milliseconds: 800),
                     autoPlayCurve: Curves.easeInOut,
@@ -154,23 +154,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     viewportFraction: 0.9,
                   ),
                 ),
-                const SizedBox(height: 65),
+                const SizedBox(height: 40),
 
                 // *** Menambahkan Teks "Silahkan memilih kos" ***
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Container(
-                    padding: const EdgeInsets.all(
-                        8.0), // Memberikan padding di dalam kotak
-                    decoration: BoxDecoration(
-                      color: Colors.white, // Warna latar belakang kotak
-                      borderRadius: BorderRadius.circular(
-                          10), // Memberikan sudut membulat
-                      border: Border.all(
-                        color: Colors.grey, // Warna border
-                        width: 1, // Ketebalan border
-                      ),
-                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

@@ -25,14 +25,14 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Gambar logo
             Image.asset(
-              'assets/images/logoutbkos.png', // Path ke gambar logo Anda
+              'assets/images/logobaru.png', // Path ke gambar logo Anda
               width: 150,
               height: 150,
             ),
@@ -41,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 40.0),
               child: LinearProgressIndicator(
-                color: Colors.blue,
+                color: Color.fromARGB(255, 112, 23, 185),
                 backgroundColor: Colors.grey, // Warna latar belakang
                 minHeight: 5, // Tinggi dari loading bar
               ),

@@ -186,12 +186,36 @@ class _PesananScreenState extends State<PesananScreen> {
                                             'Disetujui',
                                             'Ditolak',
                                             'Pending'
-                                          ]
-                                              .map((status) => DropdownMenuItem(
-                                                    value: status,
-                                                    child: Text(status),
-                                                  ))
-                                              .toList(),
+                                          ].map((status) {
+                                            Color statusColor;
+
+                                            // Tentukan warna font berdasarkan status
+                                            switch (status) {
+                                              case 'Disetujui':
+                                                statusColor = Colors.green;
+                                                break;
+                                              case 'Ditolak':
+                                                statusColor = Colors.red;
+                                                break;
+                                              case 'Pending':
+                                                statusColor = Colors.yellow;
+                                                break;
+                                              default:
+                                                statusColor = Colors.black;
+                                                break;
+                                            }
+
+                                            return DropdownMenuItem(
+                                              value: status,
+                                              child: Text(
+                                                status,
+                                                style: TextStyle(
+                                                    color: statusColor,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            );
+                                          }).toList(),
                                           onChanged: (newValue) {
                                             if (newValue != null) {
                                               _updateStatus(
