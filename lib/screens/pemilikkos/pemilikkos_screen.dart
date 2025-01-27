@@ -113,9 +113,6 @@ class _PemilikKosScreenState extends State<PemilikKosScreen> {
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Halaman Pemilik Kos'),
-      ),
       body: pages[_currentIndex],
       floatingActionButton: _currentIndex == 2
           ? FloatingActionButton(
