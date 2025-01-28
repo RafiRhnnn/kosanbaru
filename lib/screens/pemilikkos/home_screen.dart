@@ -2,18 +2,51 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
-  Future<List<Map<String, dynamic>>> fetchKosData() async {
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  List<Map<String, dynamic>> _allKos = [];
+  List<Map<String, dynamic>> _filteredKos = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchKosData();
+  }
+
+  Future<void> _fetchKosData() async {
     try {
       final response =
           await Supabase.instance.client.from('tambahkos').select();
-      return List<Map<String, dynamic>>.from(response);
+      final List<Map<String, dynamic>> kosList =
+          List<Map<String, dynamic>>.from(response);
+      setState(() {
+        _allKos = kosList;
+        _filteredKos = kosList;
+      });
     } catch (e) {
       debugPrint('Error fetching kos data: $e');
-      return [];
     }
+  }
+
+  void _filterKos(String query) {
+    setState(() {
+      if (query.isEmpty) {
+        _filteredKos = _allKos;
+      } else {
+        _filteredKos = _allKos
+            .where((kos) => kos['nama_kos']
+                .toString()
+                .toLowerCase()
+                .contains(query.toLowerCase()))
+            .toList();
+      }
+    });
   }
 
   @override
@@ -72,6 +105,10 @@ class HomeScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: const Color(0xFFF5F5F7),
                           borderRadius: BorderRadius.circular(30),
+                          border: Border.all(
+                            color: Colors.grey,
+                            width: 1.0,
+                          ),
                         ),
                         child: Row(
                           children: [
@@ -87,10 +124,7 @@ class HomeScreen extends StatelessWidget {
                                   hintText: "Cari kos...",
                                   border: InputBorder.none,
                                 ),
-                                onSubmitted: (query) {
-                                  // Tambahkan logika pencarian di sini
-                                  print("Searching for: $query");
-                                },
+                                onChanged: _filterKos,
                               ),
                             ),
                           ],
@@ -103,71 +137,58 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Expanded(
-              child: FutureBuilder<List<Map<String, dynamic>>>(
-                future: fetchKosData(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  if (snapshot.hasError ||
-                      snapshot.data == null ||
-                      snapshot.data!.isEmpty) {
-                    return const Center(child: Text('Belum ada data kos'));
-                  }
+              child: _filteredKos.isEmpty
+                  ? const Center(child: Text('Belum ada data kos'))
+                  : GridView.builder(
+                      padding: const EdgeInsets.all(8.0),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 8.0,
+                        crossAxisSpacing: 8.0,
+                        childAspectRatio: 0.8,
+                      ),
+                      itemCount: _filteredKos.length,
+                      itemBuilder: (context, index) {
+                        final kos = _filteredKos[index];
 
-                  final kosList = snapshot.data!;
-                  return GridView.builder(
-                    padding: const EdgeInsets.all(8.0),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 8.0,
-                      crossAxisSpacing: 8.0,
-                      childAspectRatio: 0.8,
-                    ),
-                    itemCount: kosList.length,
-                    itemBuilder: (context, index) {
-                      final kos = kosList[index];
-
-                      return GestureDetector(
-                        onTap: () => _showKosDetail(context, kos),
-                        child: Card(
-                          elevation: 3,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Expanded(
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.vertical(
-                                      top: Radius.circular(10)),
-                                  child: Image.asset(
-                                    'assets/images/kosan.jpg',
-                                    fit: BoxFit.cover,
+                        return GestureDetector(
+                          onTap: () => _showKosDetail(context, kos),
+                          child: Card(
+                            elevation: 3,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Expanded(
+                                  child: ClipRRect(
+                                    borderRadius: const BorderRadius.vertical(
+                                        top: Radius.circular(10)),
+                                    child: Image.asset(
+                                      'assets/images/kosan.jpg',
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  kos['nama_kos'] ?? '',
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    kos['nama_kos'] ?? '',
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
+                        );
+                      },
+                    ),
             ),
           ],
         ),

@@ -109,7 +109,7 @@ class _PemilikKosScreenState extends State<PemilikKosScreen> {
           );
         },
       ),
-      const ProfileScreen(),
+      ProfileScreen(email: widget.email)
     ];
 
     return Scaffold(
