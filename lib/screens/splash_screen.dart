@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:async'; // Untuk mengatur durasi splash screen
-import 'login/login_screen.dart'; // Mengimpor LoginScreen
+import 'dart:async';
+import 'login/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -13,7 +13,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Navigasi ke LoginScreen setelah beberapa detik
     Timer(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
@@ -25,28 +24,36 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Gambar logo
-            Image.asset(
-              'assets/images/logobaru.png', // Path ke gambar logo Anda
-              width: 150,
-              height: 150,
-            ),
-            const SizedBox(height: 20),
-            // Animasi loading bar
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 40.0),
-              child: LinearProgressIndicator(
-                color: Color.fromARGB(255, 112, 23, 185),
-                backgroundColor: Colors.grey, // Warna latar belakang
-                minHeight: 5, // Tinggi dari loading bar
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blueGrey, Colors.brown],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/logobaru.png',
+                width: 150,
+                height: 150,
               ),
-            ),
-          ],
+              const SizedBox(height: 20),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40.0),
+                child: LinearProgressIndicator(
+                  color: Color.fromARGB(255, 112, 23, 185),
+                  backgroundColor: Colors.white,
+                  minHeight: 5,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

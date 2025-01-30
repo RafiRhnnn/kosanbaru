@@ -37,15 +37,6 @@ class ProfileScreen extends StatelessWidget {
             child: Column(
               children: [
                 _buildProfileOption(
-                  icon: Icons.person,
-                  title: 'Edit Profil',
-                  onTap: () {
-                    // Tambahkan logika untuk navigasi ke halaman Edit Profil
-                  },
-                ),
-                const Divider(), // Garis pembatas
-
-                _buildProfileOption(
                   icon: Icons.help_outline,
                   title: 'Bantuan',
                   onTap: () {

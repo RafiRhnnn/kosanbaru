@@ -110,6 +110,7 @@ class _PesananScreenState extends State<PesananScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey,
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _pesananList.isEmpty

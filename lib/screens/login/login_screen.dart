@@ -42,7 +42,6 @@ class LoginScreen extends StatelessWidget {
       final userEmail = response['email'];
 
       if (role == 'pemilik') {
-        // Navigasi ke halaman PemilikKosScreen
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -50,8 +49,6 @@ class LoginScreen extends StatelessWidget {
           ),
         );
       } else if (role == 'pencari') {
-        // [Tambahan Baru]
-        // Navigasi ke halaman PencariKosScreen dengan mengirimkan email
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -66,82 +63,93 @@ class LoginScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: Colors.grey,
-      appBar: AppBar(
-        backgroundColor: Colors.grey,
-        elevation: 0,
-        title: const Center(
-          child: Text(
-            'Login',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blueGrey, Colors.brown],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Center(
-                child: Image.asset(
-                  'assets/images/logobaru.png',
-                  height: 150,
-                ),
-              ),
-              const SizedBox(height: 30),
-              Card(
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      CustomTextField(
-                        controller: emailController,
-                        label: 'Email',
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Center(
+                    child: Text(
+                      'Login',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
-                      const SizedBox(height: 10),
-                      CustomTextField(
-                        controller: passwordController,
-                        label: 'Password',
-                        obscureText: true,
-                      ),
-                      const SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: loginUser,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                        ),
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const RegisterScreen(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          "Belum mempunyai akun? Sign up",
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 30),
+                  Center(
+                    child: Image.asset(
+                      'assets/images/logobaru.png',
+                      height: 150,
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          CustomTextField(
+                            controller: emailController,
+                            label: 'Email',
+                          ),
+                          const SizedBox(height: 10),
+                          CustomTextField(
+                            controller: passwordController,
+                            label: 'Password',
+                            obscureText: true,
+                          ),
+                          const SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: loginUser,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                            ),
+                            child: const Text(
+                              'Login',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const RegisterScreen(),
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              "Belum mempunyai akun? Sign up",
+                              style: TextStyle(color: Colors.blue),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

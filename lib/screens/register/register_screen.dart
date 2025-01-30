@@ -47,102 +47,112 @@ class RegisterScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: Colors.grey,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.grey,
-        elevation: 0,
-        title: const Center(
-          child: Text(
-            'Register',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blueGrey, Colors.brown],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Center(
-                child: Image.asset(
-                  'assets/images/logoutbkos.png',
-                  height: 150,
-                ),
-              ),
-              const SizedBox(height: 30),
-              Card(
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      CustomTextField(
-                        controller: emailController,
-                        label: 'Email',
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Center(
+                    child: Text(
+                      'Register',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
-                      const SizedBox(height: 10),
-                      CustomTextField(
-                        controller: passwordController,
-                        label: 'Password',
-                        obscureText: true,
-                      ),
-                      const SizedBox(height: 10),
-                      DropdownButtonFormField<String>(
-                        value: roleController.text.isEmpty
-                            ? null
-                            : roleController.text,
-                        onChanged: (value) {
-                          roleController.text = value ?? '';
-                        },
-                        items: const [
-                          DropdownMenuItem(
-                            value: 'pemilik',
-                            child: Text('Pemilik'),
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  Center(
+                    child: Image.asset(
+                      'assets/images/logobaru.png',
+                      height: 150,
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          CustomTextField(
+                            controller: emailController,
+                            label: 'Email',
                           ),
-                          DropdownMenuItem(
-                            value: 'pencari',
-                            child: Text('Pencari'),
+                          const SizedBox(height: 10),
+                          CustomTextField(
+                            controller: passwordController,
+                            label: 'Password',
+                            obscureText: true,
+                          ),
+                          const SizedBox(height: 10),
+                          DropdownButtonFormField<String>(
+                            value: roleController.text.isEmpty
+                                ? null
+                                : roleController.text,
+                            onChanged: (value) {
+                              roleController.text = value ?? '';
+                            },
+                            items: const [
+                              DropdownMenuItem(
+                                value: 'pemilik',
+                                child: Text('Pemilik'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'pencari',
+                                child: Text('Pencari'),
+                              ),
+                            ],
+                            decoration: const InputDecoration(
+                              labelText: 'Role (pemilik/pencari)',
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: registerUser,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                            ),
+                            child: const Text(
+                              'Sign Up',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              "Sudah mempunyai akun? Silahkan login",
+                              style: TextStyle(color: Colors.blue),
+                            ),
                           ),
                         ],
-                        decoration: const InputDecoration(
-                          labelText: 'Role (pemilik/pencari)',
-                          border: OutlineInputBorder(),
-                        ),
                       ),
-                      const SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: registerUser,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                        ),
-                        child: const Text(
-                          'Sign Up',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text(
-                          "Sudah mempunyai akun? Silahkan login",
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

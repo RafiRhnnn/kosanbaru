@@ -96,11 +96,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 25),
+                    const SizedBox(height: 30),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
                       child: Container(
-                        height: 60,
+                        height: 50,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: const Color(0xFFF5F5F7),
