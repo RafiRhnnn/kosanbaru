@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 8), // Kurangi jarak antar elemen
+            const SizedBox(height: 12), // Kurangi jarak antar elemen
             SizedBox(
               height: 35, // Tinggi kotak pencarian lebih kecil
               child: TextField(

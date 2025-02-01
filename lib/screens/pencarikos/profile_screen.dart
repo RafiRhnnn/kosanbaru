@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kosautb/screens/login/login_screen.dart';
+import 'package:kosautb/screens/pencarikos/bantuan_screen.dart'; // Import file bantuan_screen.dart
 
 class ProfileScreen extends StatelessWidget {
   final String email;
@@ -23,7 +24,7 @@ class ProfileScreen extends StatelessWidget {
 
           // Menampilkan email pengguna dari login
           Text(
-            email, // Menampilkan email dari parameter
+            email,
             style: const TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
@@ -40,11 +41,16 @@ class ProfileScreen extends StatelessWidget {
                   icon: Icons.help_outline,
                   title: 'Bantuan',
                   onTap: () {
-                    // Tambahkan logika untuk navigasi ke halaman Bantuan
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ScreenBantuan(
+                            email: email), // Kirim email ke BantuanScreen
+                      ),
+                    );
                   },
                 ),
-                const Divider(), // Garis pembatas
-
+                const Divider(),
                 _buildProfileOption(
                   icon: Icons.logout,
                   title: 'Keluar',

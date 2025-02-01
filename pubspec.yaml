@@ -63,6 +63,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/kosan.jpg
     - assets/images/profile.jpg
     - assets/images/banner_0.jpg
     - assets/images/banner_1.jpg
