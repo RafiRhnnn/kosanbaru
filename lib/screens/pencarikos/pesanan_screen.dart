@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PesananScreen extends StatefulWidget {
-  final String email; // Email pengguna yang login
+  final String email;
 
   const PesananScreen({super.key, required this.email});
 
@@ -22,11 +22,10 @@ class _PesananScreenState extends State<PesananScreen> {
 
   Future<void> _fetchPesanan() async {
     try {
-      // Ambil data pesanan berdasarkan email pengguna
       final response = await Supabase.instance.client
           .from('pesanan')
           .select()
-          .eq('email', widget.email) // Filter berdasarkan email
+          .eq('email', widget.email)
           .order('created_at', ascending: false);
 
       setState(() {
@@ -75,8 +74,8 @@ class _PesananScreenState extends State<PesananScreen> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Tutup dialog
-                _hapusPesanan(id); // Hapus pesanan
+                Navigator.of(context).pop();
+                _hapusPesanan(id);
               },
               child: const Text('Iya'),
             ),
@@ -89,7 +88,7 @@ class _PesananScreenState extends State<PesananScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey, // Warna background estetik
+      backgroundColor: Colors.grey[400],
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _pesananList.isEmpty
@@ -99,7 +98,6 @@ class _PesananScreenState extends State<PesananScreen> {
                   itemBuilder: (context, index) {
                     final pesanan = _pesananList[index];
 
-                    // Logika menghitung total harga
                     final hargaSewa = pesanan['harga_sewa'] is int
                         ? pesanan['harga_sewa']
                         : int.tryParse(pesanan['harga_sewa'].toString()) ?? 0;
@@ -115,7 +113,7 @@ class _PesananScreenState extends State<PesananScreen> {
                       direction: DismissDirection.endToStart,
                       confirmDismiss: (direction) async {
                         _konfirmasiHapusPesanan(pesanan['id']);
-                        return false; // Jangan langsung hapus, tunggu konfirmasi
+                        return false;
                       },
                       background: Container(
                         alignment: Alignment.centerRight,
@@ -136,7 +134,7 @@ class _PesananScreenState extends State<PesananScreen> {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(8.0),
                                 child: Image.asset(
-                                  'assets/images/kosan.jpg', // Ganti dengan gambar Anda
+                                  'assets/images/kosan.jpg',
                                   width: 100,
                                   height: 100,
                                   fit: BoxFit.cover,
@@ -201,8 +199,7 @@ class _PesananScreenState extends State<PesananScreen> {
                                                     : pesanan['status'] ==
                                                             'Pending'
                                                         ? Colors.orangeAccent
-                                                        : Colors
-                                                            .black, // default color if status is not recognized
+                                                        : Colors.black,
                                           ),
                                         ),
                                       ],

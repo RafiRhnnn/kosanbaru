@@ -6,11 +6,11 @@ import 'pesanan_screen.dart';
 import 'profile_screen.dart';
 
 class PencariKosScreen extends StatefulWidget {
-  final String email; // [Tambahan Baru] Tambahkan properti email
+  final String email;
 
   const PencariKosScreen({
     super.key,
-    required this.email, // [Tambahan Baru]
+    required this.email,
   });
 
   @override
@@ -47,13 +47,12 @@ class _PencariKosScreenState extends State<PencariKosScreen> {
             ),
             TextButton(
               onPressed: () {
-                // [Tambahan Baru] Navigasi ke PesanScreen dengan mengirimkan email
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => PesanScreen(
                       kosData: kosData,
-                      email: widget.email, // [Tambahan Baru]
+                      email: widget.email,
                     ),
                   ),
                 );
@@ -70,7 +69,7 @@ class _PencariKosScreenState extends State<PencariKosScreen> {
   Widget build(BuildContext context) {
     final pages = [
       HomeScreen(onKosTap: _showKosDetail),
-      PesananScreen(email: widget.email), // Kirim email ke PesananScreen
+      PesananScreen(email: widget.email),
       ProfileScreen(email: widget.email)
     ];
 

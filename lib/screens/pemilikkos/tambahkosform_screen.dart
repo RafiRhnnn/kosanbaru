@@ -1,4 +1,3 @@
-// tambahkosform_screen.dart
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -15,14 +14,12 @@ class _TambahKosFormState extends State<TambahKosForm> {
   final _formKey = GlobalKey<FormState>();
   final _supabase = Supabase.instance.client;
 
-  // Input Controllers
   final _namaKosController = TextEditingController();
   final _alamatKosController = TextEditingController();
   final _jumlahKamarController = TextEditingController();
   final _hargaSewaController = TextEditingController();
   final _fasilitasController = TextEditingController();
 
-  // Jenis Kos
   String? _jenisKos;
   final List<String> _jenisKosOptions = ['Campur', 'Laki-laki', 'Perempuan'];
 
@@ -33,7 +30,7 @@ class _TambahKosFormState extends State<TambahKosForm> {
           'nama_kos': _namaKosController.text,
           'alamat_kos': _alamatKosController.text,
           'jumlah_kamar': int.parse(_jumlahKamarController.text),
-          'harga_sewa': double.parse(_hargaSewaController.text),
+          'harga_sewa': int.parse(_hargaSewaController.text),
           'jenis_kos': _jenisKos,
           'fasilitas': _fasilitasController.text,
           'email_pengguna': widget.email,
@@ -47,9 +44,7 @@ class _TambahKosFormState extends State<TambahKosForm> {
           _jenisKos = null;
         });
 
-        // Kembali ke halaman Home dan kirim data yang baru ditambahkan
-        Navigator.pop(context,
-            true); // Passing `true` to indicate that data has been added
+        Navigator.pop(context, true);
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Gagal menyimpan data: $e')),

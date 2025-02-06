@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
         height: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.blueGrey, Colors.brown],
+            colors: [Color(0xFFB89A6A), Color(0xFFF4E1B2)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),

@@ -68,7 +68,7 @@ class LoginScreen extends StatelessWidget {
         height: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.blueGrey, Colors.brown],
+            colors: [Color(0xFF6F4F28), Color(0xFFF5E0C3)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),

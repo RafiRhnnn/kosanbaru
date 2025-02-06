@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
       final kosList = List<Map<String, dynamic>>.from(response);
       setState(() {
         _kosList = kosList;
-        _filteredKosList = kosList; // Awalnya, semua data ditampilkan
+        _filteredKosList = kosList;
       });
     } catch (e) {
       debugPrint('Error fetching kos data: $e');
@@ -54,12 +54,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-          Colors.white, // Mengatur background menjadi warna abu-abu
+      backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0,
-        backgroundColor: Colors.brown,
+        backgroundColor: Color(0xFF6F4F28),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -90,20 +89,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 12), // Kurangi jarak antar elemen
+            const SizedBox(height: 12),
             SizedBox(
-              height: 35, // Tinggi kotak pencarian lebih kecil
+              height: 35,
               child: TextField(
                 onChanged: _filterKos,
                 decoration: InputDecoration(
                   hintText: 'Cari kos...',
-                  hintStyle: TextStyle(
-                      fontSize: 12), // Ukuran teks placeholder lebih kecil
-                  prefixIcon:
-                      const Icon(Icons.search, size: 16), // Ikon lebih kecil
+                  hintStyle: TextStyle(fontSize: 12),
+                  prefixIcon: const Icon(Icons.search, size: 16),
                   border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(15.0), // Border lebih kecil
+                    borderRadius: BorderRadius.circular(15.0),
                     borderSide: BorderSide(color: Colors.grey[200]!),
                   ),
                   enabledBorder: OutlineInputBorder(
@@ -118,16 +114,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   fillColor: Colors.white,
                   contentPadding: const EdgeInsets.symmetric(
                     vertical: 0,
-                    horizontal: 12, // Padding horizontal lebih kecil
+                    horizontal: 12,
                   ),
                 ),
                 style: const TextStyle(fontSize: 12, color: Colors.black),
               ),
             ),
-            const SizedBox(height: 10), // Jarak bawah di bagian header
+            const SizedBox(height: 10),
           ],
         ),
-        toolbarHeight: 130, // Kurangi tinggi AppBar
+        toolbarHeight: 130,
       ),
       body: _filteredKosList.isEmpty
           ? const Center(
@@ -138,25 +134,18 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           : ListView(
               children: [
-                // Banner Slider (CarouselSlider)
                 Stack(
                   children: [
-                    // Background coklat dengan border radius hanya di bawah
                     ClipRRect(
                       borderRadius: BorderRadius.only(
-                        bottomLeft:
-                            Radius.circular(20), // Sudut kiri bawah melengkung
-                        bottomRight:
-                            Radius.circular(20), // Sudut kanan bawah melengkung
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20),
                       ),
                       child: Container(
-                        height:
-                            80, // Setengah dari tinggi CarouselSlider (160/2)
-                        color: Colors.brown,
+                        height: 80,
+                        color: Color(0xFF6F4F28),
                       ),
                     ),
-
-                    // CarouselSlider
                     Column(
                       children: [
                         CarouselSlider(
@@ -170,8 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8.0),
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(
-                                    10), // Sudut melengkung untuk gambar
+                                borderRadius: BorderRadius.circular(10),
                                 child: Image.asset(
                                   imagePath,
                                   fit: BoxFit.cover,
@@ -180,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           }).toList(),
                           options: CarouselOptions(
-                            height: 160, // Tinggi tetap
+                            height: 160,
                             autoPlay: true,
                             autoPlayInterval: const Duration(seconds: 6),
                             autoPlayAnimationDuration:
@@ -190,14 +178,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             enlargeCenterPage: true,
                             viewportFraction: 0.9,
                             onPageChanged: (index, reason) {
-                              // Update current index when page changes
                               setState(() {
                                 _currentIndex = index;
                               });
                             },
                           ),
                         ),
-                        // Titik indikator di bawah CarouselSlider
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Row(
@@ -222,23 +208,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 20),
-
-                // *** Menambahkan Teks "Silahkan memilih kos" ***
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.white, // Latar belakang putih
-                    borderRadius: BorderRadius.circular(15), // Border radius
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
                   ),
-                  // Jarak dari atas
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(
-                            height: 20), // Jarak dari atas untuk teks
+                        const SizedBox(height: 20),
                         Text(
                           'Silahkan memilih kos',
                           style: const TextStyle(

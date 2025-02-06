@@ -61,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   height: 140,
                   width: double.infinity,
-                  color: Colors.brown,
+                  color: Color(0xFF6F4F28),
                 ),
                 Column(
                   children: [

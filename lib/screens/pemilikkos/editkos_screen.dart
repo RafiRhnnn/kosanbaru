@@ -14,21 +14,18 @@ class _EditKosFormState extends State<EditKosForm> {
   final _formKey = GlobalKey<FormState>();
   final _supabase = Supabase.instance.client;
 
-  // Input Controllers
   late TextEditingController _namaKosController;
   late TextEditingController _alamatKosController;
   late TextEditingController _jumlahKamarController;
   late TextEditingController _hargaSewaController;
   late TextEditingController _fasilitasController;
 
-  // Jenis Kos
   String? _jenisKos;
   final List<String> _jenisKosOptions = ['Campur', 'Laki-laki', 'Perempuan'];
 
   @override
   void initState() {
     super.initState();
-    // Initialize controllers with data from kosData
     _namaKosController =
         TextEditingController(text: widget.kosData['nama_kos']);
     _alamatKosController =
@@ -59,10 +56,10 @@ class _EditKosFormState extends State<EditKosForm> {
           'nama_kos': _namaKosController.text,
           'alamat_kos': _alamatKosController.text,
           'jumlah_kamar': int.parse(_jumlahKamarController.text),
-          'harga_sewa': double.parse(_hargaSewaController.text),
+          'harga_sewa': int.parse(_hargaSewaController.text),
           'jenis_kos': _jenisKos,
           'fasilitas': _fasilitasController.text,
-        }).eq('id', widget.kosData['id']); // Use the unique ID to update
+        }).eq('id', widget.kosData['id']);
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Data berhasil diperbarui!')),

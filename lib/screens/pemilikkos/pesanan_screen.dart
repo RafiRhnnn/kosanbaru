@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PesananScreen extends StatefulWidget {
-  final String email; // Email pengguna yang login
+  final String email;
 
   const PesananScreen({super.key, required this.email});
 
@@ -110,7 +110,7 @@ class _PesananScreenState extends State<PesananScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.grey[400],
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _pesananList.isEmpty
@@ -182,15 +182,13 @@ class _PesananScreenState extends State<PesananScreen> {
                                             'Pending'
                                           ].contains(pesanan['status'])
                                               ? pesanan['status']
-                                              : 'Pending', // Set default value jika nilai tidak valid
+                                              : 'Pending',
                                           items: [
                                             'Disetujui',
                                             'Ditolak',
                                             'Pending'
                                           ].map((status) {
                                             Color statusColor;
-
-                                            // Tentukan warna font berdasarkan status
                                             switch (status) {
                                               case 'Disetujui':
                                                 statusColor = Colors.green;

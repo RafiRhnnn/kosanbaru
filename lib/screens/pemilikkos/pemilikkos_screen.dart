@@ -3,9 +3,9 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:kosautb/screens/pemilikkos/editkos_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'tambah_screen.dart';
-import 'home_screen.dart'; // Import file Home
-import 'pesanan_screen.dart'; // Import file Pesanan
-import 'profile_screen.dart'; // Import file Profile
+import 'home_screen.dart';
+import 'pesanan_screen.dart';
+import 'profile_screen.dart';
 
 class PemilikKosScreen extends StatefulWidget {
   final String email;
@@ -184,7 +184,7 @@ class _PemilikKosScreenState extends State<PemilikKosScreen> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pop(context); // Tutup dialog
+                Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -197,7 +197,7 @@ class _PemilikKosScreenState extends State<PemilikKosScreen> {
             IconButton(
               icon: const Icon(Icons.delete, color: Colors.red),
               onPressed: () {
-                _deleteKos(kosData['id']); // Panggil fungsi hapus
+                _deleteKos(kosData['id']);
               },
             ),
           ],
@@ -215,11 +215,10 @@ class _PemilikKosScreenState extends State<PemilikKosScreen> {
         const SnackBar(content: Text('Kos berhasil dihapus!')),
       );
 
-      // Perbarui data setelah penghapusan
       setState(() {
         _kosList = fetchKosData();
       });
-      Navigator.pop(context); // Tutup dialog jika masih terbuka
+      Navigator.pop(context);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Gagal menghapus kos: $e')),

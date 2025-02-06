@@ -45,7 +45,7 @@ class _PesanScreenState extends State<PesanScreen> {
         'jumlah_kamar': jumlahKamar,
         'tanggal_survey': tanggalSurvey,
         'berapa_bulan': berapaBulan,
-        'email': widget.email, // Email dari login
+        'email': widget.email,
         'nama_kos': widget.kosData['nama_kos'],
         'alamat_kos': widget.kosData['alamat_kos'],
         'harga_sewa': widget.kosData['harga_sewa'],
@@ -61,7 +61,6 @@ class _PesanScreenState extends State<PesanScreen> {
         const SnackBar(content: Text('Pesanan berhasil dibuat!')),
       );
 
-      // Reset form fields
       _namaPemesanController.clear();
       _jumlahKamarController.clear();
       _berapaBulanController.clear();
@@ -77,14 +76,14 @@ class _PesanScreenState extends State<PesanScreen> {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2000), // Tanggal awal
-      lastDate: DateTime(2100), // Tanggal akhir
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
     );
 
     if (pickedDate != null) {
       setState(() {
         _tanggalSurveyController.text =
-            pickedDate.toIso8601String().split('T')[0]; // Format YYYY-MM-DD
+            pickedDate.toIso8601String().split('T')[0];
       });
     }
   }
@@ -101,11 +100,10 @@ class _PesanScreenState extends State<PesanScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Teks "Pesan kos: nama kos" di bagian atas
               Text(
                 'Pesan kos: ${widget.kosData['nama_kos']}',
                 style: const TextStyle(
-                  fontSize: 25, // Ukuran font lebih besar
+                  fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -116,7 +114,6 @@ class _PesanScreenState extends State<PesanScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      // Gambar Kos
                       ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
                         child: Image.asset(
@@ -127,10 +124,9 @@ class _PesanScreenState extends State<PesanScreen> {
                         ),
                       ),
                       const SizedBox(width: 16),
-                      // Deskripsi Kos dengan ukuran font lebih besar
                       Expanded(
                         child: Align(
-                          alignment: Alignment.topLeft, // Geser ke atas
+                          alignment: Alignment.topLeft,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -167,7 +163,6 @@ class _PesanScreenState extends State<PesanScreen> {
                 ),
               ),
               const SizedBox(height: 60),
-              // Input form in a single card
               Card(
                 elevation: 5,
                 child: Padding(
@@ -210,17 +205,16 @@ class _PesanScreenState extends State<PesanScreen> {
                       ),
                       const SizedBox(height: 8),
                       TextFormField(
-                        initialValue: widget.email, // Email dari login
-                        enabled: false, // Tidak dapat diubah oleh pengguna
+                        initialValue: widget.email,
+                        enabled: false,
                         decoration:
                             const InputDecoration(labelText: 'Email Pengguna'),
                       ),
                       TextFormField(
-                        controller:
-                            _statusController, // Nilai tetap yang ditampilkan
-                        enabled: false, // Tidak dapat diubah oleh pengguna
+                        controller: _statusController,
+                        enabled: false,
                         decoration: const InputDecoration(
-                          labelText: 'Status', // Label di atas field
+                          labelText: 'Status',
                         ),
                       ),
                       const SizedBox(height: 40),

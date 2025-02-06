@@ -1,4 +1,3 @@
-// tambah_screen.dart
 import 'package:flutter/material.dart';
 import 'tambahkosform_screen.dart';
 
